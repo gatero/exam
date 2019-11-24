@@ -44,6 +44,38 @@ const tests = [
     },
     want: '8 + 90 is the closest',
   },
+  {
+    input: {
+      arr1: arr1,
+      arr2: arr2,
+      query: 112,
+    },
+    want: '8 + 90 is the closest',
+  },
+  {
+    input: {
+      arr1: undefined,
+      arr2: arr2,
+      query: 3,
+    },
+    want: 'first argument can not be empty',
+  },
+  {
+    input: {
+      arr1: arr1,
+      arr2: undefined,
+      query: 3,
+    },
+    want: 'second argument can not be empty',
+  },
+  {
+    input: {
+      arr1: arr1,
+      arr2: arr2,
+      query: undefined,
+    },
+    want: 'third argument can not be empty',
+  },
 ];
 
 tests.forEach(({input, want}) => {
