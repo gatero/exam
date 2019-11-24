@@ -32,11 +32,13 @@ $ yarn test --watchAll
 
 ## for one liners
 
+~~~sh
 # Run it with docker docker
 $ docker run --rm -it -w /usr/src/app -v $PWD:/usr/src/app node:12.12.0 yarn && yarn test --watchAll
 
 # Without docker
 $ yarn && yarn test --watchAll
+~~~
 
 
 ## Dependencies
