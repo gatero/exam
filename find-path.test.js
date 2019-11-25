@@ -9,11 +9,6 @@ const myObject = {
   }
 };
 
-const myObject2 = {
-  ...myObject,
-  test4: null
-};
-
 const tests = [
   {
     input: {
@@ -56,48 +51,6 @@ const tests = [
       query: {val: 2},
     },
     want : 'not found',
-  },
-  {
-    input: {
-      object: [myObject],
-      query: ['test', 3],
-    },
-    want : '[0].test2.test3',
-  },
-  {
-    input: {
-      object: [myObject],
-      query: myObject,
-    },
-    want : '[0]',
-  },
-  {
-    input: {
-      object: myObject2,
-      query: 2,
-    },
-    want : 'test2.val',
-  },
-  {
-    input: {
-      object: myObject2,
-      query: 3,
-    },
-    want : 'test2.test3[1]',
-  },
-  {
-    input: {
-      object: myObject2,
-      query: 'test',
-    },
-    want : 'test2.test3[0]',
-  },
-  {
-    input: {
-      object: myObject2,
-      query: ['test', 3],
-    },
-    want : 'test2.test3',
   },
 ];
 

@@ -14,7 +14,7 @@ export default function getClosestResult(arr1, arr2, value) {
   let num1, num2;
   let memory = [];
   let results = [];
-  let result;
+  let result, less, more;
 
   if (!arr1) {
     return 'first argument can not be empty';
@@ -33,29 +33,30 @@ export default function getClosestResult(arr1, arr2, value) {
     && results.push(n1 + n2)
   )));
 
-  results = results.sort((a, b) => a - b);
+  results = [...new Set(results.sort((a, b) => a - b))];
   result = results.find((result) => result === value);
 
   if (!result) {
     for (let num = value; num >= 0; num--) {
       if (results.indexOf(num) >= 0) {
-        result = num;
+        less = num;
         break;
       }
     }
-    if (!result) {
-      for (let num = 0; num <= Math.max(...results); num++) {
-        if (results.indexOf(num) >= 0) {
-          result = num;
-          break;
-        }
+    for (let num = value; num <= Math.max(...results); num++) {
+      if (results.indexOf(num) >= 0) {
+        more = num;
+        break;
       }
     }
+
+    result = (value - less) <= (more - value) ? less : more;
   }
 
   if (result) {
     const regexp = result ? new RegExp(`^${result}:`) : '';
     const data = memory.find((slot) => regexp.test(slot)).split(':');
+    console.log('results: ', results);
 
     num1 = data[1];
     num2 = data[2];
