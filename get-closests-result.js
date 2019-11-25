@@ -14,7 +14,19 @@ export default function getClosestResult(arr1, arr2, value) {
   let num1, num2;
   let memory = [];
   let results = [];
-  let result, found;
+  let result;
+
+  if (!arr1) {
+    return 'first argument can not be empty';
+  }
+
+  if (!arr2) {
+    return 'second argument can not be empty';
+  }
+
+  if (!value) {
+    return 'third argument can not be empty';
+  }
 
   arr1.forEach((n1) => arr2.forEach((n2) => (
     memory.push((n1 + n2) + ':' + n1 + ':' + n2)
@@ -26,16 +38,14 @@ export default function getClosestResult(arr1, arr2, value) {
 
   if (!result) {
     for (let num = value; num >= 0; num--) {
-      found = results.find((current) => current === num);
-      if (found) {
+      if (results.indexOf(num) >= 0) {
         result = num;
         break;
       }
     }
     if (!result) {
-      for (let num = 0; num <= results.length; num++) {
-        found = results.find((current) => current === num);
-        if (found) {
+      for (let num = 0; num <= Math.max(...results); num++) {
+        if (results.indexOf(num) >= 0) {
           result = num;
           break;
         }
