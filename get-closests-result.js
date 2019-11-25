@@ -56,7 +56,6 @@ export default function getClosestResult(arr1, arr2, value) {
   if (result) {
     const regexp = result ? new RegExp(`^${result}:`) : '';
     const data = memory.find((slot) => regexp.test(slot)).split(':');
-    console.log('results: ', results);
 
     num1 = data[1];
     num2 = data[2];
