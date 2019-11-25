@@ -42,7 +42,7 @@ const tests = [
       arr2: arr2,
       query: 99,
     },
-    want: '8 + 90 is the closest',
+    want: '23 + 90 is the closest',
   },
   {
     input: {
