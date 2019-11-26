@@ -37,7 +37,10 @@ export default function findPath(object, value) {
               ? isNaN(property)
                 ? path + '.' + property
                 : path + '[' + property + ']'
-              : '[' + path + '].' + property
+              : objectMatch
+                ? '[' + path + ']'
+                : '[' + path + '].' + property
+
           ))(),
           matchValue: (() => (
             objectMatch
