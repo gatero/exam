@@ -42,7 +42,7 @@ const tests = [
       arr2: arr2,
       query: 99,
     },
-    want: '23 + 90 is the closest',
+    want: '8 + 90 is the closest',
   },
   {
     input: {
@@ -50,7 +50,7 @@ const tests = [
       arr2: arr2,
       query: 112,
     },
-    want: '8 + 90 is the closest',
+    want: '23 + 90 is the closest',
   },
   {
     input: {
@@ -78,10 +78,12 @@ const tests = [
   },
 ];
 
-tests.forEach(({input, want}) => {
-  const query = typeof input.query === 'object' ? JSON.stringify(input.query) : input.query;
+describe('Testing suit for getClosestResult function', () => {
+  tests.forEach(({input, want}) => {
+    const query = typeof input.query === 'object' ? JSON.stringify(input.query) : input.query;
 
-  test(`finding the closest number to ${query} through two arrays the output must be ${want}`, () => {
-    expect(getClosestResult(input.arr1, input.arr2, input.query)).toMatch(want);
+    test(`finding the closest number to ${query} through two arrays the output must be ${want}`, () => {
+      expect(getClosestResult(input.arr1, input.arr2, input.query)).toMatch(want);
+    });
   });
 });

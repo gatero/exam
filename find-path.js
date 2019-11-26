@@ -7,5 +7,67 @@
     But if not found i should see 'not found'
 */
 export default function findPath(object, value) {
-  return '';
+  if (object === undefined) {
+    return 'object param can not be empty';
+  }
+  if (value === undefined) {
+    return 'value param can not be empty';
+  }
+  const memory = [];
+  const getType = (object) => Array.isArray(object) ? 'array' : typeof object;
+  const valueType = getType(value);
+
+  const getRawValue = (value) => (
+    valueType === 'object' || valueType === 'array'
+    ? JSON.stringify(value)
+    : value
+  )
+  const rawValue = getRawValue(value);
+
+  const handler = {
+    object: (object, path, objectMatch) => (
+      object
+      ? Object.keys(object).map((property, index) => {
+        const objectType = getType(object[property]);
+        const slot = {
+          path: (() => (
+            path == undefined
+            ? property
+            : isNaN(path)
+              ? isNaN(property)
+                ? path + '.' + property
+                : path + '[' + property + ']'
+              : objectMatch
+                ? '[' + path + ']'
+                : '[' + path + '].' + property
+
+          ))(),
+          matchValue: (() => (
+            objectMatch
+            ? objectMatch
+            : rawValue === getRawValue(object[property])
+          ))(),
+        }
+
+        memory.push(slot);
+
+        if ( objectType === 'object' || objectType === 'array') {
+          handler.object(object[property], slot.path);
+        }
+      })
+      : null
+    ),
+    array: (array, path) => array.map((object, index) => {
+      const objectMatch = rawValue === getRawValue(object);
+      path = path || index;
+
+      return handler.object(object, path, objectMatch);
+    })
+  };
+
+  handler[getType(object)](object);
+
+  const slot = memory.find((slot) => slot.matchValue);
+
+  return slot ? slot.path : 'not found';
 }

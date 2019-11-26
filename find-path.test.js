@@ -99,12 +99,28 @@ const tests = [
     },
     want : 'test2.test3',
   },
+  {
+    input: {
+      object: undefined,
+      query: ['test', 3],
+    },
+    want : 'object param can not be empty',
+  },
+  {
+    input: {
+      object: myObject2,
+      query: undefined,
+    },
+    want : 'value param can not be empty',
+  },
 ];
 
-tests.forEach(({input, want}) => {
-  const query = typeof input.query === 'object' ? JSON.stringify(input.query) : input.query;
+describe('Testing suit for findPath function', () => {
+  tests.forEach(({input, want}) => {
+    const query = typeof input.query === 'object' ? JSON.stringify(input.query) : input.query;
 
-  test(`finding ${query} through myObject the output must be ${want}`, () => {
-    expect(findPath(input.object, input.query)).toMatch(want);
+    test(`finding ${query} through myObject the output must be ${want}`, () => {
+      expect(findPath(input.object, input.query)).toMatch(want);
+    });
   });
 });

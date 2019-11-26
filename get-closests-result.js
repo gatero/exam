@@ -11,5 +11,55 @@
     Example:
 */
 export default function getClosestResult(arr1, arr2, value) {
+  let num1, num2;
+  let memory = [];
+  let results = [];
+  let result, less, more;
+
+  if (!arr1) {
+    return 'first argument can not be empty';
+  }
+
+  if (!arr2) {
+    return 'second argument can not be empty';
+  }
+
+  if (!value) {
+    return 'third argument can not be empty';
+  }
+
+  arr1.forEach((n1) => arr2.forEach((n2) => (
+    memory.push((n1 + n2) + ':' + n1 + ':' + n2)
+    && results.push(n1 + n2)
+  )));
+
+  results = [...new Set(results.sort((a, b) => a - b))];
+  result = results.find((result) => result === value);
+
+  if (!result) {
+    for (let num = value; num >= 0; num--) {
+      if (results.indexOf(num) >= 0) {
+        less = num;
+        break;
+      }
+    }
+    for (let num = value; num <= Math.max(...results); num++) {
+      if (results.indexOf(num) >= 0) {
+        more = num;
+        break;
+      }
+    }
+
+    result = (value - less) <= (more - value) ? less : more;
+  }
+
+  if (result) {
+    const regexp = result ? new RegExp(`^${result}:`) : '';
+    const data = memory.find((slot) => regexp.test(slot)).split(':');
+
+    num1 = data[1];
+    num2 = data[2];
+  }
+
   return num1 +' + '+ num2 + ' is the closest';
 }
