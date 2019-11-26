@@ -58,7 +58,7 @@ export default function findPath(object, value) {
       : null
     ),
     array: (array, path) => array.map((object, index) => {
-      const objectMatch = getRawValue(value) === getRawValue(object);
+      const objectMatch = rawValue === getRawValue(object);
       path = path || index;
 
       return handler.object(object, path, objectMatch);
