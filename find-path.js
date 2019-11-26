@@ -7,6 +7,12 @@
     But if not found i should see 'not found'
 */
 export default function findPath(object, value) {
+  if (object === undefined) {
+    return 'object param can not be empty';
+  }
+  if (value === undefined) {
+    return 'value param can not be empty';
+  }
   const memory = [];
   const getType = (object) => Array.isArray(object) ? 'array' : typeof object;
   const valueType = getType(value);

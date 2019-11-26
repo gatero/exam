@@ -99,6 +99,20 @@ const tests = [
     },
     want : 'test2.test3',
   },
+  {
+    input: {
+      object: undefined,
+      query: ['test', 3],
+    },
+    want : 'object param can not be empty',
+  },
+  {
+    input: {
+      object: myObject2,
+      query: undefined,
+    },
+    want : 'value param can not be empty',
+  },
 ];
 
 tests.forEach(({input, want}) => {
