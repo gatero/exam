@@ -10,44 +10,53 @@ export default function findPath(object, value) {
   const memory = [];
   const getType = (object) => Array.isArray(object) ? 'array' : typeof object;
   const valueType = getType(value);
+
+  const getRawValue = (value) => (
+    getType(value) === 'object' || getType(value) === 'array'
+    ? JSON.stringify(value)
+    : value
+  )
+  const rawValue = getRawValue(value);
+
   const handler = {
-    object: (object, path) => Object.keys(object).map((property, index) => {
-      const objectType = getType(object[property]);
-      const slot = {
-        path: (() => {
-          console.log('path: ', path, 'property: ', property);
-          if (path) {
-            return isNaN(property) ? path + '.' + property : path + '[' + property + ']';
-          } else {
-            return property
-          }
-        })(),
-        matchValue: (() => {
-          const currentValue = objectType === 'object' || objectType === 'array'
-                              ? JSON.stringify(object[property])
-                              : object[property];
-          const query = valueType === 'object' || valueType === 'array'
-                        ? JSON.stringify(value)
-                        : value;
+    object: (object, path, objectMatch) => (
+      object
+      ? Object.keys(object).map((property, index) => {
+        const objectType = getType(object[property]);
+        const slot = {
+          path: (() => (
+            path == undefined
+            ? property
+            : isNaN(path)
+              ? isNaN(property)
+                ? path + '.' + property
+                : path + '[' + property + ']'
+              : '[' + path + '].' + property
+          ))(),
+          matchValue: (() => (
+            objectMatch
+            ? objectMatch
+            : rawValue === getRawValue(object[property])
+          ))(),
+        }
 
-          return query === currentValue;
-        })(),
-      }
+        memory.push(slot);
 
-      memory.push(slot);
+        if ( objectType === 'object' || objectType === 'array') {
+          handler.object(object[property], slot.path);
+        }
+      })
+      : null
+    ),
+    array: (array, path) => array.map((object, index) => {
+      const objectMatch = getRawValue(value) === getRawValue(object);
+      path = path || index;
 
-      if ( objectType === 'object' || objectType === 'array') {
-        handler.object(object[property], slot.path);
-      }
-    }),
-    array: (array, path) => array.map((object) => handler.object(object, path)),
+      return handler.object(object, path, objectMatch);
+    })
   };
 
   handler[getType(object)](object);
-
-  console.log('object: ', object, 'value: ', value);
-  //console.log('memory: ', memory);
-  //console.log('match: ', memory.find((slot) => slot.matchValue));
 
   const slot = memory.find((slot) => slot.matchValue);
 
