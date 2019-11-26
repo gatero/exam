@@ -115,10 +115,12 @@ const tests = [
   },
 ];
 
-tests.forEach(({input, want}) => {
-  const query = typeof input.query === 'object' ? JSON.stringify(input.query) : input.query;
+describe('Testing suit for findPath function', () => {
+  tests.forEach(({input, want}) => {
+    const query = typeof input.query === 'object' ? JSON.stringify(input.query) : input.query;
 
-  test(`finding ${query} through myObject the output must be ${want}`, () => {
-    expect(findPath(input.object, input.query)).toMatch(want);
+    test(`finding ${query} through myObject the output must be ${want}`, () => {
+      expect(findPath(input.object, input.query)).toMatch(want);
+    });
   });
 });

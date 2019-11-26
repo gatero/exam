@@ -78,10 +78,12 @@ const tests = [
   },
 ];
 
-tests.forEach(({input, want}) => {
-  const query = typeof input.query === 'object' ? JSON.stringify(input.query) : input.query;
+describe('Testing suit for getClosestResult function', () => {
+  tests.forEach(({input, want}) => {
+    const query = typeof input.query === 'object' ? JSON.stringify(input.query) : input.query;
 
-  test(`finding the closest number to ${query} through two arrays the output must be ${want}`, () => {
-    expect(getClosestResult(input.arr1, input.arr2, input.query)).toMatch(want);
+    test(`finding the closest number to ${query} through two arrays the output must be ${want}`, () => {
+      expect(getClosestResult(input.arr1, input.arr2, input.query)).toMatch(want);
+    });
   });
 });
