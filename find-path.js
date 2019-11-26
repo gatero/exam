@@ -18,7 +18,7 @@ export default function findPath(object, value) {
   const valueType = getType(value);
 
   const getRawValue = (value) => (
-    getType(value) === 'object' || getType(value) === 'array'
+    valueType === 'object' || valueType === 'array'
     ? JSON.stringify(value)
     : value
   )
